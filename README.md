@@ -2,8 +2,8 @@
 
 **EmpowerMe** es una aplicación web desarrollada con **Laravel** diseñada para la gestión y promoción de eventos deportivos, de salud y bienestar (Yoga, Running, Nutrición). La plataforma permite a los administradores gestionar la cartelera y a los usuarios inscribirse y llevar un control de sus actividades.
 
-![EmpowerMe Banner](public/images/logo-empower.png)
-*(Si tienes una captura de pantalla del Home, puedes ponerla aquí)*
+
+
 
 ## 📋 Características Principales
 

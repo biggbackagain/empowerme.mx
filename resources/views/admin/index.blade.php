@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Panel de Administración
             </h2>
-            <a href="{{ route('admin.create') }}" class="bg-pink-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-pink-700 text-sm">
+            <a href="{{ route('admin.create') }}" class="bg-gradient-to-r from-[#DD2494] to-[#E65E0B] text-white px-4 py-2 rounded-lg font-bold hover:opacity-90 text-sm">
                 + Nuevo Evento
             </a>
         </div>
@@ -32,16 +32,21 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach($events as $event)
                                     <tr>
-                                        <td class="px-4 py-4 font-bold">{{ $event->title }}</td>
-                                        <td class="px-4 py-4 text-sm">{{ $event->start_date->format('d/m/Y') }}</td>
+                                        <td class="px-4 py-4 font-bold">
+                                            {{ $event->title }}
+                                            @if($event->start_date->isPast())
+                                                <span class="ml-2 text-[10px] font-bold uppercase bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">Finalizado</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-4 text-sm">{{ $event->start_date->translatedFormat('d/m/Y') }}</td>
                                         <td class="px-4 py-4 text-center">
                                             <span class="px-2 py-1 text-xs font-bold rounded-full {{ $event->participants->count() >= $event->capacity ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
                                                 {{ $event->participants->count() }} / {{ $event->capacity }}
                                             </span>
                                         </td>
                                         <td class="px-4 py-4 text-right text-sm font-medium space-x-2">
-                                            <a href="{{ route('admin.show', $event->id) }}" class="text-blue-600 font-bold">Ver Lista</a>
-                                            <a href="{{ route('admin.edit', $event->id) }}" class="text-indigo-600">Editar</a>
+                                            <a href="{{ route('admin.show', $event->id) }}" class="text-[#111111] font-bold">Ver Lista</a>
+                                            <a href="{{ route('admin.edit', $event->id) }}" class="text-[#E65E0B] font-bold">Editar</a>
                                             <form action="{{ route('admin.destroy', $event->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Borrar evento?');">
                                                 @csrf @method('DELETE')
                                                 <button class="text-red-600">Borrar</button>

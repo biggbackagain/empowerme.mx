@@ -16,7 +16,9 @@ class Event extends Model
         'location', 
         'capacity', 
         'image_url',
-        'recommendations'
+        'image_position',
+        'recommendations',
+        'price'
     ];
 
     // --- AQUÍ ESTÁ LA CORRECCIÓN ---
@@ -28,6 +30,8 @@ class Event extends Model
     // Relación con participantes
     public function participants()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->withPivot('confirmation_code', 'attended', 'attended_at', 'payment_status', 'payment_id')
+            ->withTimestamps();
     }
 }

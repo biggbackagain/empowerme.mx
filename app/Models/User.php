@@ -48,6 +48,8 @@ class User extends Authenticatable
     // Esta función es vital para que funcione tu Dashboard
     public function events()
     {
-        return $this->belongsToMany(Event::class)->withTimestamps();
+        return $this->belongsToMany(Event::class)
+            ->withPivot('confirmation_code', 'attended', 'attended_at')
+            ->withTimestamps();
     }
 }

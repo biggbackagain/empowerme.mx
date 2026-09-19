@@ -4,14 +4,14 @@
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ url('/') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-[#DD2494] dark:text-[#E65E0B]" />
                     </a>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
                     <x-nav-link :href="url('/')" :active="request()->is('/')">
-                        {{ __('🏠 Ir al Sitio Web') }}
+                        {{ __('Ir al Sitio Web') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -19,8 +19,17 @@
                     </x-nav-link>
 
                     @if(Auth::user()->is_admin)
-                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
-                            {{ __('⚙️ Administrar Eventos') }}
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index') || request()->routeIs('admin.create') || request()->routeIs('admin.show') || request()->routeIs('admin.edit')">
+                            {{ __('Administrar Eventos') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.programs.index')" :active="request()->routeIs('admin.programs.*')">
+                            {{ __('Administrar Programas') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.people.index')" :active="request()->routeIs('admin.people.*')">
+                            {{ __('Personas') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.hero.index')" :active="request()->routeIs('admin.hero.*')">
+                            {{ __('Carrusel') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -81,8 +90,17 @@
             </x-responsive-nav-link>
 
             @if(Auth::user()->is_admin)
-                <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
+                <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index') || request()->routeIs('admin.create') || request()->routeIs('admin.show') || request()->routeIs('admin.edit')">
                     {{ __('⚙️ Administrar Eventos') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.programs.index')" :active="request()->routeIs('admin.programs.*')">
+                    {{ __('⚙️ Administrar Programas') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.people.index')" :active="request()->routeIs('admin.people.*')">
+                    {{ __('👥 Personas') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.hero.index')" :active="request()->routeIs('admin.hero.*')">
+                    {{ __('🖼️ Carrusel') }}
                 </x-responsive-nav-link>
             @endif
         </div>

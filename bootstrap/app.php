@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // El webhook de Mercado Pago viene de un servidor externo sin token CSRF.
+        $middleware->validateCsrfTokens(except: [
+            'webhook/mercadopago',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

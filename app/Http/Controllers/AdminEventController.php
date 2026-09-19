@@ -27,11 +27,24 @@ class AdminEventController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'recommendations' => 'nullable|string',
             'start_date' => 'required|date',
             'location' => 'required',
             'capacity' => 'required|integer',
-            'image_url' => 'nullable|url'
+            'price' => 'nullable|numeric|min:0',
+            'image_url' => 'nullable|url',
+            'image_file' => 'nullable|image|max:4096', // hasta 4MB
+            'image_position' => 'nullable|in:top,center,bottom',
         ]);
+
+        // Si suben un archivo desde la computadora, tiene prioridad sobre la URL
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('eventos', 'public');
+            $data['image_url'] = '/storage/' . $path;
+        }
+        unset($data['image_file']);
+
+        $data['image_position'] = $data['image_position'] ?? 'center';
 
         Event::create($data);
         return redirect()->route('admin.index')->with('success', 'Evento creado correctamente.');
@@ -63,11 +76,24 @@ class AdminEventController extends Controller
             'start_date' => 'required|date',
             'location' => 'required',
             'capacity' => 'required|integer',
-            'image_url' => 'nullable|url'
+            'price' => 'nullable|numeric|min:0',
+            'image_url' => 'nullable|url',
+            'image_file' => 'nullable|image|max:4096',
+            'image_position' => 'nullable|in:top,center,bottom',
         ]);
 
         // 2. Buscar y Actualizar
         $event = Event::findOrFail($id);
+
+        // Si suben un archivo desde la computadora, tiene prioridad sobre la URL
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('eventos', 'public');
+            $data['image_url'] = '/storage/' . $path;
+        }
+        unset($data['image_file']);
+
+        $data['image_position'] = $data['image_position'] ?? 'center';
+
         $event->update($data);
 
         // 3. Redirigir AL DASHBOARD (No a admin.index)
@@ -80,5 +106,55 @@ class AdminEventController extends Controller
         $event = Event::findOrFail($id);
         $event->delete();
         return redirect()->route('admin.index')->with('success', 'Evento eliminado.');
+    }
+
+    // 8. Marcar / desmarcar asistencia de una persona (casilla en la lista)
+    public function toggleAttendance(Request $request, $eventId, $userId)
+    {
+        $event = Event::findOrFail($eventId);
+        $registro = $event->participants()->where('users.id', $userId)->first();
+
+        if (!$registro) {
+            return back()->with('error', 'Esa persona no está inscrita en este evento.');
+        }
+
+        $yaAsistio = (bool) $registro->pivot->attended;
+
+        $event->participants()->updateExistingPivot($userId, [
+            'attended' => !$yaAsistio,
+            'attended_at' => !$yaAsistio ? now() : null,
+        ]);
+
+        return back()->with('success', $yaAsistio
+            ? 'Se quitó la asistencia de ' . $registro->name . '.'
+            : '✅ Asistencia confirmada para ' . $registro->name . '.');
+    }
+
+    // 9. Check-in por código (pegar el código y confirmar al instante)
+    public function checkinByCode(Request $request, $eventId)
+    {
+        $request->validate(['confirmation_code' => 'required|string']);
+
+        $event = Event::with('participants')->findOrFail($eventId);
+        $code = strtoupper(trim($request->confirmation_code));
+
+        $persona = $event->participants()
+            ->wherePivot('confirmation_code', $code)
+            ->first();
+
+        if (!$persona) {
+            return back()->with('error', "El código \"{$code}\" no corresponde a nadie inscrito en este evento.");
+        }
+
+        if ($persona->pivot->attended) {
+            return back()->with('error', "⚠️ El código {$code} es de {$persona->name}, pero ya había sido registrado como asistente.");
+        }
+
+        $event->participants()->updateExistingPivot($persona->id, [
+            'attended' => true,
+            'attended_at' => now(),
+        ]);
+
+        return back()->with('success', "✅ ¡Bienvenida/o {$persona->name}! Asistencia confirmada (código {$code}).");
     }
 }

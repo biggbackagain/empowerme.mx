@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Confiar en los proxies de Heroku para que cargue el CSS por HTTPS
+        $middleware->trustProxies(at: '*');
+
         // El webhook de Mercado Pago viene de un servidor externo sin token CSRF.
         $middleware->validateCsrfTokens(except: [
             'webhook/mercadopago',

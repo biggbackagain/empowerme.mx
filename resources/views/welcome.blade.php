@@ -23,7 +23,7 @@
     <nav class="bg-white shadow sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="#inicio" class="text-2xl font-extrabold tracking-tighter flex-shrink-0">
+                <a href="#inicio" class="text-xl sm:text-2xl font-extrabold tracking-tighter flex-shrink-0 mr-2">
                     EMPOWER<span class="text-[#DD2494]">ME</span>
                 </a>
 
@@ -36,7 +36,7 @@
                     <a href="#contacto" class="hover:text-[#E65E0B] transition">Contacto</a>
                 </div>
 
-                <div class="flex items-center space-x-4 flex-shrink-0">
+                <div class="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
                     @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/dashboard') }}" class="text-[#111111] font-bold hover:text-[#DD2494] transition hidden sm:block whitespace-nowrap">
@@ -46,7 +46,7 @@
                             <a href="{{ route('login') }}" class="text-[#111111] hover:text-[#DD2494] font-bold transition hidden sm:block whitespace-nowrap">
                                 Iniciar Sesión
                             </a>
-                            <a href="{{ route('register') }}" class="em-gradient text-white px-5 py-2 rounded-full font-bold hover:opacity-90 transition shadow-md whitespace-nowrap">
+                            <a href="{{ route('register') }}" class="em-gradient text-white px-3 py-1.5 sm:px-5 sm:py-2 text-sm sm:text-base rounded-full font-bold hover:opacity-90 transition shadow-md whitespace-nowrap">
                                 ¡Únete Gratis!
                             </a>
                         @endauth
@@ -55,7 +55,7 @@
             </div>
 
             <!-- Nav móvil/tablet (scroll horizontal) -->
-            <div class="xl:hidden flex space-x-6 overflow-x-auto text-sm font-bold text-[#111111] pb-3 -mt-1">
+            <div class="xl:hidden flex space-x-6 overflow-x-auto text-sm font-bold text-[#111111] px-4 pb-3 -mt-1">
                 <a href="#inicio" class="whitespace-nowrap hover:text-[#E65E0B]">Inicio</a>
                 <a href="#quienes-somos" class="whitespace-nowrap hover:text-[#E65E0B]">Quiénes Somos</a>
                 <a href="#experiencias" class="whitespace-nowrap hover:text-[#E65E0B]">Experiencias</a>
@@ -67,7 +67,7 @@
     </nav>
 
     <!-- ============ INICIO / PORTADA ============ -->
-    <header id="inicio" class="relative bg-[#111111] h-[600px] scroll-mt-16 overflow-hidden">
+    <header id="inicio" class="relative bg-[#111111] min-h-[600px] h-auto pb-16 md:pb-0 scroll-mt-16 overflow-hidden">
 
         @if($heroImages->count() > 0)
             {{-- Carrusel de fotos de las experiencias (se administra desde el panel) --}}

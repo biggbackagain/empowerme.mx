@@ -39,9 +39,15 @@
                 <div class="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-[#111111] font-bold hover:text-[#DD2494] transition hidden sm:block whitespace-nowrap">
-                                Ir a mi Dashboard
+                            <a href="{{ url('/dashboard') }}" class="em-gradient text-white px-3 py-1.5 sm:px-5 sm:py-2 text-sm sm:text-base rounded-full font-bold hover:opacity-90 transition shadow-md whitespace-nowrap">
+                                Mi Panel
                             </a>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs sm:text-sm font-bold text-gray-500 hover:text-[#DD2494] transition ml-2">
+                                    Salir
+                                </button>
+                            </form>
                         @else
                             <a href="{{ route('login') }}" class="text-[#111111] hover:text-[#DD2494] font-bold transition hidden sm:block whitespace-nowrap">
                                 Iniciar Sesión
@@ -54,8 +60,8 @@
                 </div>
             </div>
 
-            <!-- Nav móvil/tablet (scroll horizontal) -->
-            <div class="xl:hidden flex space-x-6 overflow-x-auto text-sm font-bold text-[#111111] px-4 pb-3 -mt-1">
+            <!-- Nav móvil/tablet (envuelve en líneas para que se vean todas) -->
+            <div class="xl:hidden flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm font-bold text-[#111111] px-4 pb-3 -mt-1">
                 <a href="#inicio" class="whitespace-nowrap hover:text-[#E65E0B]">Inicio</a>
                 <a href="#quienes-somos" class="whitespace-nowrap hover:text-[#E65E0B]">Quiénes Somos</a>
                 <a href="#experiencias" class="whitespace-nowrap hover:text-[#E65E0B]">Experiencias</a>

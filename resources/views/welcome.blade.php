@@ -44,7 +44,7 @@
                             </a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="text-xs sm:text-sm font-bold text-gray-500 hover:text-[#DD2494] transition ml-2">
+                                <button type="submit" class="text-xs sm:text-sm font-bold text-gray-500 hover:text-[#DD2494] transition ml-1 sm:ml-2">
                                     Salir
                                 </button>
                             </form>
@@ -57,20 +57,31 @@
                             </a>
                         @endauth
                     @endif
+
+                    <!-- Botón Menú Móvil -->
+                    <button id="mobile-menu-btn" class="xl:hidden ml-2 text-[#111111] hover:text-[#DD2494] focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
                 </div>
             </div>
 
-            <!-- Nav móvil/tablet (envuelve en líneas para que se vean todas) -->
-            <div class="xl:hidden flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm font-bold text-[#111111] px-4 pb-3 -mt-1">
-                <a href="#inicio" class="whitespace-nowrap hover:text-[#E65E0B]">Inicio</a>
-                <a href="#quienes-somos" class="whitespace-nowrap hover:text-[#E65E0B]">Quiénes Somos</a>
-                <a href="#experiencias" class="whitespace-nowrap hover:text-[#E65E0B]">Experiencias</a>
-                <a href="#programas" class="whitespace-nowrap hover:text-[#E65E0B]">Programas</a>
-                <a href="#comunidad" class="whitespace-nowrap hover:text-[#E65E0B]">Comunidad</a>
-                <a href="#contacto" class="whitespace-nowrap hover:text-[#E65E0B]">Contacto</a>
+            <!-- Menú Desplegable Móvil -->
+            <div id="mobile-menu" class="hidden xl:hidden flex flex-col space-y-3 px-4 pb-4 pt-2 border-t mt-2 text-base font-bold text-[#111111]">
+                <a href="#inicio" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Inicio</a>
+                <a href="#quienes-somos" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Quiénes Somos</a>
+                <a href="#experiencias" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Experiencias</a>
+                <a href="#programas" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Programas</a>
+                <a href="#comunidad" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Comunidad</a>
+                <a href="#contacto" class="hover:text-[#E65E0B] transition" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contacto</a>
             </div>
         </div>
     </nav>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
 
     <!-- ============ INICIO / PORTADA ============ -->
     <header id="inicio" class="relative bg-[#111111] min-h-[600px] h-auto pb-16 md:pb-0 scroll-mt-16 overflow-hidden">

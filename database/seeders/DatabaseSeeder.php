@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // Crear usuario sin usar factory() para evitar error de Faker en producción
         User::updateOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'admin@empowerme.mx'],
             [
-                'name' => 'Test User',
-                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'name' => 'Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'), // la contraseña será 'password'
                 'email_verified_at' => now(),
+                'is_admin' => true,
             ]
         );
 
